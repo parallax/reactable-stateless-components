@@ -3,6 +3,7 @@
 const vscode = require('vscode');
 const path = require('path');
 const fs = require('fs');
+const fse = require('fs-extra');
 
 // const createDirectory = require('./createDirectory');
 
@@ -25,41 +26,34 @@ const fs = require('fs');
 	return null;
 }
 
-const createDirectory = (uri, componentName)=>{
-    const rootDir =  path.join(__dirname);
+const extensionRoot =  path.join(__dirname);
+const fileExtensions= [{name:'component', template:`${extensionRoot}/`}, {name:'container', template:`${extensionRoot}/`} , {name:'styles', template:`${extensionRoot}/`}, {name:'config', template:`${extensionRoot}/`}]
 
-    // console.log('--->',rootDir,'<--->',vscode.workspace.rootPath, '<--->', vscode.workspace.getConfiguration('ACReactComponentGenerator').get('global'), 'ddddddss', vscode.workspace.workspaceFolders[0]);
-    // console.log('12345//67fff89');
+const createDirectory = (componentName)=>{
 
 	const projectRoot = vscode.workspace.workspaceFolders[0].uri.path
 	
-console.log('prr',projectRoot)
-
-	const filePath = `${projectRoot}/index.js`
-	//WE NEED TO CHECK IF EXISTS AND CREATE A COMPONENTS FILE HERE
-	
-	fs.writeFileSync(filePath, "contents of file", 'utf8');
+	fileExtensions.forEach(type=>{
+		const filePath = `${projectRoot}/${componentName}/${componentName}.${type.name}.js`		
+		fse.outputFile(filePath, 'Hey there!', err => {
+			if(err) {
+			  console.log(err, `/${componentName}.${type.name}.js has not been created`);
+			} else {
+			  console.log(`/${componentName}.${type.name}.js has been created`);
+			}
+		  })
+	})
 }
 
 function activate(context) {
 
-	// Use the console to output diagnostic information (console.log) and errors (console.error)
-	// This line of code will only be executed once when your extension is activated
-	console.log('Congratulations, your extension "reactable-stateless-components" is now active!');
-
-	// The command has been defined in the package.json file
-	// Now provide the implementation of the command with  registerCommand
-	// The commandId parameter must match the command field in package.json
 	let disposable = vscode.commands.registerCommand('reactable-stateless-components.createStatelessComponent', async function () {
-		// The code you place here will be executed every time your command is executed
-
-		// Display a message box to the use
 
 		const name = await vscode.window.showInputBox({prompt: 'Component Name', ignoreFocusOut: true, validateInput: validate})
 
 		vscode.window.showInformationMessage(`Ok, lets create a component called ${name}`);
 
-		createDirectory('uri', 'componentName');
+		createDirectory(name);
 	});
 
 	context.subscriptions.push(disposable);
