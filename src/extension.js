@@ -26,8 +26,12 @@ const path = require('path');
 
 const createDirectory = (uri, componentName)=>{
     const rootDir =  path.join(__dirname, '/');
-    console.log('--->',rootDir,'<--->',vscode.workspace.rootPath, '<--->', vscode.workspace.getConfiguration('ACReactComponentGenerator').get('global'));
-    console.log('12345//67fff89');
+    // console.log('--->',rootDir,'<--->',vscode.workspace.rootPath, '<--->', vscode.workspace.getConfiguration('ACReactComponentGenerator').get('global'), 'ddddddss', vscode.workspace.workspaceFolders[0]);
+    // console.log('12345//67fff89');
+
+	const projectRoot = vscode.workspace.workspaceFolders[0]
+
+	//WE NEED TO CHECK IF EXISTS AND CREATE A COMPONENTS FILE HERE
 }
 
 function activate(context) {
