@@ -34,7 +34,7 @@ const createDirectory = (componentName)=>{
 	const projectRoot = vscode.workspace.workspaceFolders[0].uri.path
 	
 	fileExtensions.forEach(type=>{
-		const filePath = `${projectRoot}/${componentName}/${componentName}.${type.name}.js`		
+		const filePath = `${projectRoot}/src/components/${componentName}/${componentName}.${type.name}.js`		
 		fse.outputFile(filePath, 'Hey there!', err => {
 			if(err) {
 			  console.log(err, `/${componentName}.${type.name}.js has not been created`);
