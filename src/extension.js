@@ -1,6 +1,7 @@
 // The module 'vscode' contains the VS Code extensibility API
 // Import the module and reference it with the alias vscode in your code below
 const vscode = require('vscode');
+const path = require('path');
 
 // const createDirectory = require('./createDirectory');
 
@@ -23,6 +24,12 @@ const vscode = require('vscode');
 	return null;
 }
 
+const createDirectory = (uri, componentName)=>{
+    const rootDir =  path.join(__dirname, '/');
+    console.log('--->',rootDir,'<--->',vscode.workspace.rootPath, '<--->', vscode.workspace.getConfiguration('ACReactComponentGenerator').get('global'));
+    console.log('12345//67fff89');
+}
+
 function activate(context) {
 
 	// Use the console to output diagnostic information (console.log) and errors (console.error)
@@ -41,7 +48,7 @@ function activate(context) {
 
 		vscode.window.showInformationMessage(`Ok, lets create a component called ${name}`);
 
-		// createDirectory('uri', 'componentName');
+		createDirectory('uri', 'componentName');
 	});
 
 	context.subscriptions.push(disposable);
