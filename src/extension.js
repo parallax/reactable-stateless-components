@@ -42,10 +42,10 @@ const createDirectory = (componentName) => {
 	if (err) {
 	  console.log(
 		err,
-		`/${componentName}.${type.name}.js has not been created`
+		`/${componentName}.index.js has not been created`
 	  );
 	} else {
-	  console.log(`/${componentName}.${type.name}.js has been created`);
+	  console.log(`/${componentName}.index.js has been created`);
 	}
   });
 
