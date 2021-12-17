@@ -28,12 +28,14 @@ const fs = require('fs');
 const createDirectory = (uri, componentName)=>{
     const rootDir =  path.join(__dirname);
 
-	const filePath = `${rootDir}/index.js`
     // console.log('--->',rootDir,'<--->',vscode.workspace.rootPath, '<--->', vscode.workspace.getConfiguration('ACReactComponentGenerator').get('global'), 'ddddddss', vscode.workspace.workspaceFolders[0]);
     // console.log('12345//67fff89');
 
-	const projectRoot = vscode.workspace.workspaceFolders[0]
+	const projectRoot = vscode.workspace.workspaceFolders[0].uri.path
+	
+console.log('prr',projectRoot)
 
+	const filePath = `${projectRoot}/index.js`
 	//WE NEED TO CHECK IF EXISTS AND CREATE A COMPONENTS FILE HERE
 	
 	fs.writeFileSync(filePath, "contents of file", 'utf8');
