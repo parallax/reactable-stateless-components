@@ -1,4 +1,6 @@
-# reactable-stateless-components README
+![Drag Racing](./assets/reactable-logo.png)
+# Reactable Stateless Components
+
 
 This is the README for your extension "reactable-stateless-components". After writing up a brief description, we recommend including the following sections.
 
