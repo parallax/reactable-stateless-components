@@ -2,6 +2,7 @@
 // Import the module and reference it with the alias vscode in your code below
 const vscode = require('vscode');
 const path = require('path');
+const fs = require('fs');
 
 // const createDirectory = require('./createDirectory');
 
@@ -25,13 +26,17 @@ const path = require('path');
 }
 
 const createDirectory = (uri, componentName)=>{
-    const rootDir =  path.join(__dirname, '/');
+    const rootDir =  path.join(__dirname);
+
+	const filePath = `${rootDir}/index.js`
     // console.log('--->',rootDir,'<--->',vscode.workspace.rootPath, '<--->', vscode.workspace.getConfiguration('ACReactComponentGenerator').get('global'), 'ddddddss', vscode.workspace.workspaceFolders[0]);
     // console.log('12345//67fff89');
 
 	const projectRoot = vscode.workspace.workspaceFolders[0]
 
 	//WE NEED TO CHECK IF EXISTS AND CREATE A COMPONENTS FILE HERE
+	
+	fs.writeFileSync(filePath, "contents of file", 'utf8');
 }
 
 function activate(context) {

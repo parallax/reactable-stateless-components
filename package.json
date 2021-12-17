@@ -38,6 +38,7 @@
     "typescript": "^4.4.4"
   },
   "dependencies": {
+    "js": "^0.1.0",
     "path": "^0.12.7"
   }
 }
