@@ -40,27 +40,32 @@ const formatComponentName = (componentName) => {
   return `${componentName[0].toUpperCase()}${componentName.substring(1)}`;
 };
 
-const checkForSettingsFile = (filePath) => {
-  console.log('CHECKING FOR SETTINGS')
-  console.log('filepath is also', filePath);
-  const dir = `projectRoot/.vscode/settings.json`;
-  // if (fs.existsSync(dir)) {
-  //   console.log('file exists');
-  // } else {
+const checkForSettingsFile = () => {
+  const dir = `${projectRoot}/.vscode/settings.json`;
+  if (fs.existsSync(dir)) {
+  } else {
+    // vscode.window.showInformationMessage(
+    // 	`Please configure your stateless components`
+    //   );
+    console.log("no file exists");
+    const ask = async () => {
+      const pathToComponents = await vscode.window.showInputBox({
+        prompt: "Where is your component folder located",
+        ignoreFocusOut: true,
+      });
 
-      const json = `{
-    "reactable-stateless-components-isSetUp": true,
-    "reactable-stateless-components-path": "${filePath}"
-  }`;
-  
+      // "|| "src/components""
+      const json = `{"reactable-stateless-components-path":"${pathToComponents}"}`;
+
       fse.outputFile(`${projectRoot}/.vscode/settings.json`, json, (err) => {
         if (err) {
           console.error(err);
           return;
         }
       });
-    // };
-
+    };
+    ask();
+  }
 };
 
 const createDirectory = (componentName, componentDirectory) => {
@@ -77,12 +82,16 @@ const createDirectory = (componentName, componentDirectory) => {
   );
 
   fileExtensions.forEach((type) => {
-    const filePath = `${projectRoot}/${componentDirectory}/${componentName}/${componentName}.${type.name}.js`;
-    // const template = require(type.template)
+    const filePath = `${projectRoot}/src/components/${componentName}/${componentName}.${type.name}.js`;
 
-    const fileContents = fs.readFileSync(path.resolve(`${extensionRoot}/templates/${type.template}`), 'utf8')
+    const fileContents = fs.readFileSync(
+      path.resolve(`${extensionRoot}/templates/${type.template}`),
+      "utf8"
+    );
 
-    fse.outputFile(filePath, fileContents, (err) => {
+    const newfileContents = fileContents.replaceAll("Tester", componentName);
+
+    fse.outputFile(filePath, newfileContents, (err) => {
       if (err) {
         console.log(
           err,
@@ -118,7 +127,7 @@ function activate(context) {
 
       // checkForSettingsFile(filePath||'src/components')
 
-      const filePath = 'src/components'
+      const filePath = "src/components";
 
       const formattedComponentName = formatComponentName(name);
 
