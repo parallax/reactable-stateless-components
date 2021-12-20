@@ -2,6 +2,7 @@ const vscode = require("vscode");
 const path = require("path");
 const fse = require("fs-extra");
 const fs = require("fs");
+// const templateFile = require('./templates/stateless-container');
 
 // const createDirectory = require('./createDirectory');
 
@@ -27,10 +28,10 @@ const validate = (name) => {
 const extensionRoot = path.join(__dirname);
 
 const fileExtensions = [
-  { name: "component", template: `${extensionRoot}/` },
-  { name: "container", template: `${extensionRoot}/` },
-  { name: "styles", template: `${extensionRoot}/` },
-  { name: "config", template: `${extensionRoot}/` },
+  { name: "component", template: `stateless-component.js` },
+  { name: "container", template: `stateless-container.js` },
+  { name: "styles", template: `stateless-styles.js` },
+  { name: "config", template: `stateless-config.js` },
 ];
 
 const projectRoot = vscode.workspace.workspaceFolders[0].uri.path;
@@ -39,39 +40,32 @@ const formatComponentName = (componentName) => {
   return `${componentName[0].toUpperCase()}${componentName.substring(1)}`;
 };
 
-const checkForSettingsFile = () => {
-  const dir = `${projectRoot}/.vscode/settings.json`;
-  if (fs.existsSync(dir)) {
-  } else {
-    // vscode.window.showInformationMessage(
-    // 	`Please configure your stateless components`
-    //   );
-	console.log('no file exists');
-    const ask = async () => {
-      const pathToComponents =
-        (await vscode.window.showInputBox({
-          prompt: "Where is your component folder located",
-          ignoreFocusOut: true,
-        }));
+const checkForSettingsFile = (filePath) => {
+  console.log('CHECKING FOR SETTINGS')
+  console.log('filepath is also', filePath);
+  const dir = `projectRoot/.vscode/settings.json`;
+  // if (fs.existsSync(dir)) {
+  //   console.log('file exists');
+  // } else {
 
-		// "|| "src/components""
-      const json = `{"reactable-stateless-components-path":"${pathToComponents}"}`;
-
+      const json = `{
+    "reactable-stateless-components-isSetUp": true,
+    "reactable-stateless-components-path": "${filePath}"
+  }`;
+  
       fse.outputFile(`${projectRoot}/.vscode/settings.json`, json, (err) => {
         if (err) {
           console.error(err);
           return;
         }
-        //file written successfully
       });
-    };
-	ask();
-  }
+    // };
+
 };
 
-const createDirectory = (componentName) => {
+const createDirectory = (componentName, componentDirectory) => {
   fse.outputFile(
-    `${projectRoot}/src/components/${componentName}/index.js`,
+    `${projectRoot}/${componentDirectory}/${componentName}/index.js`,
     `export { default } from './${componentName}.container.js'`,
     (err) => {
       if (err) {
@@ -83,8 +77,12 @@ const createDirectory = (componentName) => {
   );
 
   fileExtensions.forEach((type) => {
-    const filePath = `${projectRoot}/src/components/${componentName}/${componentName}.${type.name}.js`;
-    fse.outputFile(filePath, "Hey there!", (err) => {
+    const filePath = `${projectRoot}/${componentDirectory}/${componentName}/${componentName}.${type.name}.js`;
+    // const template = require(type.template)
+
+    const fileContents = fs.readFileSync(path.resolve(`${extensionRoot}/templates/${type.template}`), 'utf8')
+
+    fse.outputFile(filePath, fileContents, (err) => {
       if (err) {
         console.log(
           err,
@@ -113,9 +111,18 @@ function activate(context) {
         validateInput: validate,
       });
 
+      // const filePath = await vscode.window.showInputBox({
+      //   prompt: "relative path to your components folder, default is src/components",
+      //   ignoreFocusOut: true,
+      // });
+
+      // checkForSettingsFile(filePath||'src/components')
+
+      const filePath = 'src/components'
+
       const formattedComponentName = formatComponentName(name);
 
-      createDirectory(formattedComponentName);
+      createDirectory(formattedComponentName, filePath);
     }
   );
 
