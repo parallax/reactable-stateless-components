@@ -1,7 +1,10 @@
 import TesterComponent from "./Tester.component";
 
 const TesterContainer = (props) => {
-  return <TesterComponent {...props} />;
+  const containerProps = {};
+  const containerFunctions = {};
+  return (
+    <TesterComponent {...props} {...containerProps} {...containerFunctions} />
+  );
 };
-
 export default TesterContainer;
