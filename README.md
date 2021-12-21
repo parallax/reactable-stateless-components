@@ -24,7 +24,7 @@ VS Code > 1.63.0
 
 ## Extension Settings
 
-None ar present
+None at present
 
 ## Known Issues
 
