@@ -47,6 +47,7 @@ const checkForSettingsFile = () => {
     // vscode.window.showInformationMessage(
     // 	`Please configure your stateless components`
     //   );
+    
     console.log("no file exists");
     const ask = async () => {
       const pathToComponents = await vscode.window.showInputBox({
