@@ -1,9 +1,6 @@
 ![logo3](./assets/reactable-logo.png)
 # Reactable Stateless Components
 
-
-This is the README for your extension "reactable-stateless-components". After writing up a brief description, we recommend including the following sections.
-
 ## Features
 
 Easily create stateless react components, with seperate files for the component, container, a config and styles.
