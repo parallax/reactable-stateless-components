@@ -36,4 +36,4 @@ Users appreciate release notes as you update your extension.
 
 ### 1.0.0
 
-Initial release of Reactable Stateless Components
+Initial release of Nexus Reactable Stateless Components
