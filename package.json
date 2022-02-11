@@ -17,7 +17,7 @@
     "commands": [
       {
         "command": "reactable-stateless-components.createStatelessComponent",
-        "title": "Stateless Component"
+        "title": "Nexus Component"
       }
     ]
   },

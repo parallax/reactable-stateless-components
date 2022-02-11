@@ -31,7 +31,7 @@ const fileExtensions = [
   { name: "component", template: `stateless-component.js` },
   { name: "container", template: `stateless-container.js` },
   { name: "styles", template: `stateless-styles.js` },
-  { name: "test", template: `stateless-test.js` },
+  { name: "test", template: `stateless-tests.js` },
 ];
 
 const projectRoot = vscode.workspace.workspaceFolders[0].uri.path;
@@ -71,7 +71,7 @@ const checkForSettingsFile = () => {
 
 const createDirectory = (componentName) => {
   fse.outputFile(
-    `${projectRoot}/web/components/${componentName}/index.js`,
+    `${projectRoot}/web/components/@common/${componentName}/index.js`,
     `export { default } from './${componentName}.container.js'`,
     (err) => {
       if (err) {
@@ -83,7 +83,7 @@ const createDirectory = (componentName) => {
   );
 
   fileExtensions.forEach((type) => {
-    const filePath = `${projectRoot}/components/${componentName}/${componentName}.${type.name}.js`;
+    const filePath = `${projectRoot}/web/components/@common/${componentName}/${componentName}.${type.name}.js`;
 
     const fileContents = fs.readFileSync(
       path.resolve(`${extensionRoot}/templates/${type.template}`),
