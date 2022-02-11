@@ -31,7 +31,7 @@ const fileExtensions = [
   { name: "component", template: `stateless-component.js` },
   { name: "container", template: `stateless-container.js` },
   { name: "styles", template: `stateless-styles.js` },
-  { name: "config", template: `stateless-config.js` },
+  { name: "test", template: `stateless-test.js` },
 ];
 
 const projectRoot = vscode.workspace.workspaceFolders[0].uri.path;
@@ -69,9 +69,9 @@ const checkForSettingsFile = () => {
   }
 };
 
-const createDirectory = (componentName, componentDirectory) => {
+const createDirectory = (componentName) => {
   fse.outputFile(
-    `${projectRoot}/${componentDirectory}/${componentName}/index.js`,
+    `${projectRoot}/web/components/${componentName}/index.js`,
     `export { default } from './${componentName}.container.js'`,
     (err) => {
       if (err) {
@@ -83,16 +83,16 @@ const createDirectory = (componentName, componentDirectory) => {
   );
 
   fileExtensions.forEach((type) => {
-    const filePath = `${projectRoot}/src/components/${componentName}/${componentName}.${type.name}.js`;
+    const filePath = `${projectRoot}/components/${componentName}/${componentName}.${type.name}.js`;
 
     const fileContents = fs.readFileSync(
       path.resolve(`${extensionRoot}/templates/${type.template}`),
       "utf8"
     );
 
-    const newfileContents = fileContents.replaceAll("Tester", componentName);
+    const newFileContents = fileContents.replaceAll("Tester", componentName);
 
-    fse.outputFile(filePath, newfileContents, (err) => {
+    fse.outputFile(filePath, newFileContents, (err) => {
       if (err) {
         console.log(
           err,
@@ -128,7 +128,7 @@ function activate(context) {
 
       // checkForSettingsFile(filePath||'src/components')
 
-      const filePath = "src/components";
+      const filePath = "/components";
 
       const formattedComponentName = formatComponentName(name);
 

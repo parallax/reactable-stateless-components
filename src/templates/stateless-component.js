@@ -1,9 +1,13 @@
 import React from "react";
 import styles from "./Tester.styles";
-import config from "./Tester.config";
+import { Box, Typography } from '@mui/material';
 
-const TesterComponent = () => {
-  return <h1>{config.heading}</h1>;
+const TesterComponent = ({ t }) => {
+  return (
+    <Box sx={styles.wrapper}>
+      <Typography variant="body">{t("Tester Component")}</Typography>
+    </Box>
+  );
 };
 
 export default TesterComponent;
